@@ -1,0 +1,36 @@
+<div class="chat-container">
+  <div class="messages-wrapper">
+    <div class="messages">
+      @for (item of messages; track $index) {
+        <div class="message" [ngClass]="item.type">
+          @if (item.text) {
+            {{ item.text }}
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="chat-input">
+    @if (previewImageUrl) {
+    <div class="image-preview-inbox">
+      <img [src]="previewImageUrl" alt="Vista previa" />
+      <button type="button" (click)="closePreview(previewImageUrl)" class="remove-preview">✕</button>
+    </div>
+    }
+    @if (previewAudioUrl) {
+    <div class="audio-preview-inbox">
+      <audio [src]="previewAudioUrl" controls></audio>
+      <button type="button" (click)="closePreview(previewAudioUrl)" class="remove-preview">✕</button>
+    </div>
+    }
+    <input type="text" [formControl]="inputText" placeholder="Enter your text here" class="input-field" (keydown.enter)="onSubmit()" />
+    <input type="file" accept="image/*" (change)="onImageSelected($event)" style="display:none" #fileInput>
+    <i class="bx bx-photo-album" data-tooltip="Adjuntar imagen" (click)="fileInput.click()"></i>
+    <i class="bx bx-{{isRecording ? 'stop-circle' : 'microphone'}}"
+       [attr.data-tooltip]="isRecording ? 'Detener grabación' : 'Grabar voz'"
+       [class.recording]="isRecording"
+       (click)="toggleRecording()"></i>
+    <i class="bx bx-right-arrow-alt" data-tooltip="Enviar mensaje" (click)="onSubmit()"></i>
+  </div>
+</div>
