@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './not-found.css'
 })
 export class NotFound {
+  mensaje = 'Pagina no encontrada';
 
 }

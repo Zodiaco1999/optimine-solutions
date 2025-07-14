@@ -13,12 +13,16 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/optimine-solutions",
+            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/favicon.ico",
+              "src/assets",
               {
                 "glob": "**/*",
                 "input": "public"
@@ -28,8 +32,10 @@
               "src/styles.css",
               "public/assets/icons.min.css",
               "public/assets/icons-rtl.min.css"
-            ]
-          },
+            ],
+            "scripts": [],
+            "baseHref": "/optimine-solutions/"
+        },
           "configurations": {
             "production": {
               "budgets": [
@@ -87,6 +93,9 @@
               "src/styles.css"
             ]
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
