@@ -11,7 +11,7 @@ export class ChatbotService {
   constructor(private http: HttpClient) { }
 
   sendMessage(message: string) {
-    return this.http.post<string>(this.apiUrl, { message });
+    //return this.http.post<string>(this.apiUrl, { message });
 
     return new Observable<string>(observer => {
       console.log("Mock API call with message:", message);
