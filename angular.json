@@ -30,8 +30,8 @@
             ],
             "styles": [
               "src/styles.css",
-              "public/assets/icons.min.css",
-              "public/assets/icons-rtl.min.css"
+              "src/assets/css/icons.min.css",
+              "src/assets/css/icons-rtl.min.css"
             ],
             "scripts": [],
             "baseHref": "/optimine-solutions/"
