@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { connect, MqttClient } from 'mqtt';
+import mqtt from 'mqtt';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MqttService {
-  private client: MqttClient = connect('ws://broker.hivemq.com:8000/mqtt');
+  private client: mqtt.MqttClient;
 
   constructor() {
+    this.client = mqtt.connect('ws://test.mosquitto.org:8080');
+    this.setupListeners();
   }
 
   private setupListeners(): void {
@@ -27,6 +29,10 @@ export class MqttService {
     this.client.on('error', (err) => {
       console.error('❌ Error MQTT:', err);
     });
+  }
+
+  getClient() {
+    return this.client;
   }
 
   publish(topic: string, message: string) {

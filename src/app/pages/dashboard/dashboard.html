@@ -1,1 +1,14 @@
-<p>dashboard works!</p>
+<ngx-gauge
+  [size]="400"
+  [value]="value"
+  [min]="-40"
+  [max]="80"
+  [thick]="20"
+  [label]="'Temperatura'"
+  [append]="'°C'"
+  [type]="'arch'"
+  [cap]="'round'"
+  [animate]="true"
+  [duration]="800"
+  [thresholds]="thresholds"
+></ngx-gauge>

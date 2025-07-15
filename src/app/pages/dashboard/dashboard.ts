@@ -1,19 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { MqttService } from '../../services/mqtt-servie';
+import { NgxGaugeModule } from 'ngx-gauge';
+import { DHTData } from '../../models/dht';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [NgxGaugeModule],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css'
+  styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnInit {
-  constructor(private mqttService: MqttService) {
+  value: number = 0;
 
-  }
+  thresholds = {
+    '-40': { color: '#7a96f1ff'},
+    '15': { color: '#2196f3' },
+    '35': { color: '#ffc107' },
+    '60': { color: '#f44336' }
+  };
+
+  constructor(private mqttService: MqttService) {}
 
   ngOnInit(): void {
+    this.mqttService.subscribe('datos/brayan/publica');
+    this.mqttService.getClient().on('message', (topic, message) => {
+      const data = JSON.parse(message.toString()) as DHTData;
+      if (data && data.temperatura !== undefined) {
+        this.value = data.temperatura;
+      }
+    });
   }
-
-
 }
