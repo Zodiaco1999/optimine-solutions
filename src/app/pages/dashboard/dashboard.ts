@@ -21,8 +21,7 @@ export class Dashboard implements OnInit {
 
   constructor(private mqttService: MqttService) {}
 
-  ngOnInit(): void {
-    this.mqttService.subscribe('datos/brayan/publica');
+  ngOnInit() {
     this.mqttService.getClient().on('message', (topic, message) => {
       const data = JSON.parse(message.toString()) as DHTData;
       if (data && data.temperatura !== undefined) {

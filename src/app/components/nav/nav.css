@@ -2,6 +2,7 @@
   display: block;
   box-shadow: 0px 2px 5px rgb(black, .2);
   > div {
+    height: 68px;
     padding: 1em;
     display: flex;
     justify-content: space-between;
@@ -27,13 +28,18 @@
       transform: translateX(0);
     }
   }
+
+  .bx-log-in {
+    color: #000000;
+  }
 }
 
 .hide-mobile {
   display: none;
   box-shadow: 0px 2px 5px rgb(black, .2);
   > div {
-    padding: .6em 2em;
+    height: 68px;
+    padding-right: 2em;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -61,23 +67,13 @@
     .account {
       margin-right: .5em;
     }
-    .cart {
-      position: relative;
-      .counter {
-        width: 20px;
-        height: 20px;
-        line-height: 20px;
-        background: #ACD9B2;
-        border-radius: 50%;
-        display: block;
-        color: white;
-        text-align: center;
-        position: absolute;
-        top: -10px;
-        right: -10px;
-      }
-    }
   }
+}
+
+.bx-log-in {
+  transform: scale(1.5);
+  color: #67b672;
+  cursor: pointer;
 }
 
 /* Medium only */
@@ -105,7 +101,7 @@
 .hide-mobile nav ul li {
   padding: 10px 16px;       /* espacio interno */
   margin: 4px 0;            /* espacio entre ítems */
-  color: #8ece97;             /* texto verde */
+  color: #67b672;             /* texto verde */
   cursor: pointer;
   font-weight: 500;
   transition: background 0.3s ease;
