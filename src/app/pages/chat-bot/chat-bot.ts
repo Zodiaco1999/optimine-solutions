@@ -41,6 +41,15 @@ export class ChatBot {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       this.previewImageUrl = URL.createObjectURL(file);
+
+      this.chatbotService.predictImage(file).subscribe({
+        next: (res) => {
+          this.messages.push({ type: 'received', text: `Predicción de imagen: ${res.prediction}` });
+        },
+        error: (error) => {
+          console.error('Error en la predicción de imagen:', error);
+        }
+      });
     }
   }
 
