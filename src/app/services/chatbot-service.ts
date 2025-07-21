@@ -6,9 +6,20 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatbotService {
-  private apiUrl = 'https://api.example.com/chat';
+  private apiUrl = 'http://127.0.0.1:3000';
 
   constructor(private http: HttpClient) { }
+
+  predictImage(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${this.apiUrl}/predict`, formData);
+  }
+
+  testConnection() {
+    return this.http.get('http://127.0.0.1:3000/');
+  }
 
   sendMessage(message: string) {
     //return this.http.post<string>(this.apiUrl, { message });
