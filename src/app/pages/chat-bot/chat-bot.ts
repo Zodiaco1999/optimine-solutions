@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ChatbotService } from '../../services/chatbot-service';
@@ -6,7 +6,7 @@ import { Message } from '../../models/message';
 
 @Component({
   selector: 'app-chat-bot',
-  imports: [ ReactiveFormsModule, CommonModule ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './chat-bot.html',
   styleUrl: './chat-bot.css'
 })
@@ -14,32 +14,48 @@ export class ChatBot {
   inputText = new FormControl('');
   messages: Message[] = [];
   currentImage: File | null = null;
-  previewImageUrl: string | null = null;
+  previewImageUrl?: string = undefined;
   previewAudioUrl: string | null = null;
   isRecording = false;
 
   private mediaRecorder: MediaRecorder | null = null;
   private audioChunks: Blob[] = [];
 
-  constructor(private cdr: ChangeDetectorRef, private chatbotService: ChatbotService) {}
+  constructor(
+    @Inject(ChangeDetectorRef) private cdr: ChangeDetectorRef,
+    private chatbotService: ChatbotService
+  ) {}
 
-  onSubmit() {
-    const text = this.inputText.value?.trim();
-    if (text) {
-      this.pushMessage(text);
+onSubmit() {
+  const text = this.inputText.value?.trim();
+  if (text) {
+    this.pushMessage(text, true, this.previewImageUrl);
 
-      this.chatbotService.predictImage(this.currentImage as File).subscribe({
-        next: (response) => {
-          this.pushMessage(`Predicción: ${response.class} con confianza el ${response.confidence}`, false);
-          this.resetChat();
-        },
-        error: (error) => {
-          console.error('Error al enviar la imagen:', error);
-          this.pushMessage('Error al procesar la imagen.');
+    this.chatbotService.predictImage(this.currentImage as File).subscribe({
+      next: (response) => {
+        if (response.is_success) {
+          const replacement = response.replacement!;
+          this.pushMessage(
+            `Repuesto encontrado: ${replacement.name}`,
+            false,
+            undefined,
+            [{ part_number: replacement.part_number, name: replacement.name, quantity: replacement.quantity }]
+          );
         }
-      });
-    }
+        else {
+          this.pushMessage('No se encontró un repuesto adecuado.');
+          console.log('nivel de confianza desconocido:', response.confidence_score);
+        }
+        this.resetChat();
+      },
+      error: (error) => {
+        console.error('Error al enviar la imagen:', error);
+        this.pushMessage('Error al procesar la imagen.');
+        this.resetChat();
+      }
+    });
   }
+}
 
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -91,21 +107,30 @@ export class ChatBot {
 
   closePreview(url: string | null) {
     if (url === this.previewImageUrl) {
-      this.previewImageUrl = null;
+      this.previewImageUrl = undefined;
     } else if (url === this.previewAudioUrl) {
       this.previewAudioUrl = null;
     }
     this.cdr.detectChanges();
   }
 
-  pushMessage(message: string, isSent: boolean = true) {
-    const msg: Message = { text: message, type: isSent ? 'sent' : 'received' };
-    this.messages.push(msg);
-  }
+  pushMessage(
+  text?: string,
+  sent: boolean = false,
+  imageUrl?: string,
+  tableData?: { part_number: string; name: string; quantity: number }[]
+) {
+  this.messages.push({
+    type: sent ? 'sent' : 'received',
+    ...(text ? { text } : {}),
+    ...(imageUrl ? { imageUrl } : {}),
+    ...(tableData ? { tableData } : {})
+  });
+}
 
   resetChat() {
     this.inputText.setValue('');
-    this.previewImageUrl = null;
+    this.previewImageUrl = undefined;
     this.previewAudioUrl = null;
     this.currentImage = null;
   }

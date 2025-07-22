@@ -6,5 +6,6 @@ export const routes: Routes = [
   { path: '', redirectTo: '/chat', pathMatch: 'full' },
   { path: 'chat', loadComponent: () => import('./pages/chat-bot/chat-bot').then(m => m.ChatBot) },
   { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard').then(m => m.Dashboard) },
+  { path: 'download', loadComponent: () => import('./pages/download/download').then(m => m.Download) },
   { path: '**', loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFound) }
 ];

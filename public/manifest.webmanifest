@@ -1,6 +1,6 @@
 {
-  "name": "optimine-solutions",
-  "short_name": "optimine-solutions",
+  "name": "Optimine Solutions",
+  "short_name": "Optimine",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

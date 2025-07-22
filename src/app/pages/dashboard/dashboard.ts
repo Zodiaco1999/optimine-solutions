@@ -10,7 +10,8 @@ import { DHTData } from '../../models/dht';
   styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnInit {
-  value: number = 0;
+  temp1: number = 0;
+  temp2: number = 0;
 
   thresholds = {
     '-40': { color: '#7a96f1ff'},
@@ -24,8 +25,9 @@ export class Dashboard implements OnInit {
   ngOnInit() {
     this.mqttService.getClient().on('message', (topic, message) => {
       const data = JSON.parse(message.toString()) as DHTData;
-      if (data && data.temperatura !== undefined) {
-        this.value = data.temperatura;
+      if (data && data.temperatura_uno !== undefined) {
+        this.temp1 = data.temperatura_uno;
+        this.temp2 = data.temperatura_dos;
       }
     });
   }

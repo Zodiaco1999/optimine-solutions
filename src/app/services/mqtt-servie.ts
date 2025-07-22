@@ -6,18 +6,20 @@ import mqtt from 'mqtt';
 })
 export class MqttService {
   private client: mqtt.MqttClient;
+  BROKER_URL = 'ws://test.mosquitto.org:8080';
+  TOPIC = 'will/publica';
 
   constructor() {
-    this.client = mqtt.connect('ws://test.mosquitto.org:8080');
+    this.client = mqtt.connect(this.BROKER_URL);
     this.setupListeners();
   }
 
   private setupListeners(): void {
     this.client.on('connect', () => {
       console.log('✅ MQTT conectado');
-      this.client.subscribe('will/publica', (err) => {
+      this.client.subscribe(this.TOPIC, (err) => {
         if (!err) {
-          console.log('📡 Suscrito a will/publica');
+          console.log(`📡 Suscrito a ${this.TOPIC}`);
         }
       });
     });

@@ -3,8 +3,31 @@
     <div class="messages">
       @for (item of messages; track $index) {
         <div class="message" [ngClass]="item.type">
+          @if (item.imageUrl) {
+            <img [src]="item.imageUrl" alt="Imagen del mensaje" width="300px" class="message-image" />
+          }
           @if (item.text) {
             {{ item.text }}
+          }
+          @if (item.tableData) {
+            <table class="replacement-table">
+              <thead>
+                <tr>
+                  <th>Parte número</th>
+                  <th>Nombre componente</th>
+                  <th>Cantidad en bodega</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (row of item.tableData; track $index) {
+                  <tr>
+                    <td>{{ row.part_number }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.quantity }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
           }
         </div>
       }

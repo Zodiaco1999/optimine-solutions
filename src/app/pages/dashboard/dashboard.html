@@ -1,14 +1,37 @@
-<ngx-gauge
-  [size]="400"
-  [value]="value"
-  [min]="-40"
-  [max]="80"
-  [thick]="20"
-  [label]="'Temperatura'"
-  [append]="'°C'"
-  [type]="'arch'"
-  [cap]="'round'"
-  [animate]="true"
-  [duration]="800"
-  [thresholds]="thresholds"
-></ngx-gauge>
+<div class="card-container">
+  <div class="card">
+    <h3 class="title">Sensor Superior</h3>
+    <ngx-gauge
+      [size]="400"
+      [value]="temp1"
+      [min]="-40"
+      [max]="80"
+      [thick]="20"
+      [label]="'Temperatura'"
+      [append]="'°C'"
+      [type]="'arch'"
+      [cap]="'round'"
+      [animate]="true"
+      [duration]="800"
+      [thresholds]="thresholds"
+    ></ngx-gauge>
+  </div>
+
+  <div class="card">
+    <h3 class="title">Sensor Inferior</h3>
+    <ngx-gauge
+      [size]="400"
+      [value]="temp2"
+      [min]="-40"
+      [max]="80"
+      [thick]="20"
+      [label]="'Temperatura'"
+      [append]="'°C'"
+      [type]="'arch'"
+      [cap]="'round'"
+      [animate]="true"
+      [duration]="800"
+      [thresholds]="thresholds"
+    ></ngx-gauge>
+  </div>
+</div>

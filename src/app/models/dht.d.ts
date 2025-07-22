@@ -1,4 +1,6 @@
 export interface DHTData {
-  temperatura: number;
-  humedad: number;
+  temperatura_uno: number;
+  humedad_uno: number;
+  temperatura_dos: number;
+  humedad_dos: number;
 }
