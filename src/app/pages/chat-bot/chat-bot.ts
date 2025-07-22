@@ -13,6 +13,7 @@ import { Message } from '../../models/message';
 export class ChatBot {
   inputText = new FormControl('');
   messages: Message[] = [];
+  currentImage: File | null = null;
   previewImageUrl: string | null = null;
   previewAudioUrl: string | null = null;
   isRecording = false;
@@ -25,14 +26,18 @@ export class ChatBot {
   onSubmit() {
     const text = this.inputText.value?.trim();
     if (text) {
-      this.messages.push({ type: 'sent', text });
-      this.chatbotService.sendMessage(text).subscribe(response => {
-        this.messages.push({ type: 'received', text: response });
-      });
+      this.pushMessage(text);
 
-      this.inputText.setValue('');
-      this.previewImageUrl = null;
-      this.previewAudioUrl = null;
+      this.chatbotService.predictImage(this.currentImage as File).subscribe({
+        next: (response) => {
+          this.pushMessage(`Predicción: ${response.class} con confianza el ${response.confidence}`, false);
+          this.resetChat();
+        },
+        error: (error) => {
+          console.error('Error al enviar la imagen:', error);
+          this.pushMessage('Error al procesar la imagen.');
+        }
+      });
     }
   }
 
@@ -41,15 +46,7 @@ export class ChatBot {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       this.previewImageUrl = URL.createObjectURL(file);
-
-      this.chatbotService.predictImage(file).subscribe({
-        next: (res) => {
-          this.messages.push({ type: 'received', text: `Predicción de imagen: ${res.prediction}` });
-        },
-        error: (error) => {
-          console.error('Error en la predicción de imagen:', error);
-        }
-      });
+      this.currentImage = file;
     }
   }
 
@@ -99,6 +96,18 @@ export class ChatBot {
       this.previewAudioUrl = null;
     }
     this.cdr.detectChanges();
+  }
+
+  pushMessage(message: string, isSent: boolean = true) {
+    const msg: Message = { text: message, type: isSent ? 'sent' : 'received' };
+    this.messages.push(msg);
+  }
+
+  resetChat() {
+    this.inputText.setValue('');
+    this.previewImageUrl = null;
+    this.previewAudioUrl = null;
+    this.currentImage = null;
   }
 
 }

@@ -15,9 +15,9 @@ export class MqttService {
   private setupListeners(): void {
     this.client.on('connect', () => {
       console.log('✅ MQTT conectado');
-      this.client.subscribe('datos/brayan/publica', (err) => {
+      this.client.subscribe('will/publica', (err) => {
         if (!err) {
-          console.log('📡 Suscrito a datos/brayan/publica');
+          console.log('📡 Suscrito a will/publica');
         }
       });
     });

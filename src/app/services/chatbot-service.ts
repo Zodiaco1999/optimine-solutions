@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { PredictResponse } from '../models/predict';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatbotService {
-  private apiUrl = 'http://127.0.0.1:3000';
+  private apiUrl = 'http://127.0.0.1:8000';
 
   constructor(private http: HttpClient) { }
 
@@ -14,7 +15,7 @@ export class ChatbotService {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post(`${this.apiUrl}/predict`, formData);
+    return this.http.post<PredictResponse>(`${this.apiUrl}/predict`, formData);
   }
 
   testConnection() {
