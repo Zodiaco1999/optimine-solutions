@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1753228953042,
+  "timestamp": 1753230085047,
   "index": "/optimine-solutions/index.html",
   "assetGroups": [
     {
@@ -20,7 +20,7 @@
         "/optimine-solutions/chunk-WM4SRLFM.js",
         "/optimine-solutions/favicon.ico",
         "/optimine-solutions/index.html",
-        "/optimine-solutions/main-S775M35P.js",
+        "/optimine-solutions/main-MJLTEXOV.js",
         "/optimine-solutions/manifest.webmanifest",
         "/optimine-solutions/polyfills-B6TNHZQ6.js",
         "/optimine-solutions/styles-LKJ2ONVF.css"
@@ -157,8 +157,8 @@
     "/optimine-solutions/icons/icon-512x512.png": "f687f8c48d42e90ac20850390967d3df953b786a",
     "/optimine-solutions/icons/icon-72x72.png": "5a7ac94c53d065dc9855739ad04a00b479471dab",
     "/optimine-solutions/icons/icon-96x96.png": "67c18dd663130cb7090626424b967e29d88d381c",
-    "/optimine-solutions/index.html": "f1634f9d735f0114a3311f4842cf4e60e9618071",
-    "/optimine-solutions/main-S775M35P.js": "e8b2b85a8072e8c3eca3d78df820024f0363f2e8",
+    "/optimine-solutions/index.html": "2f21c6be7b78934f38469a02b8f23952e393c6b6",
+    "/optimine-solutions/main-MJLTEXOV.js": "60021acfccbfe7eaa861b45d8e82c5b2842c6a02",
     "/optimine-solutions/manifest.webmanifest": "bbe73d2668b1181598f2fd4c5b0310adaf09d1f9",
     "/optimine-solutions/media/boxicons-AHL5LXQ7.woff": "dd6c7a64783289d3c5e77c93f4440786c1ca01ea",
     "/optimine-solutions/media/boxicons-BZVSDYYU.ttf": "6c9944326ed3c901afcb78a9ed07906f04f9cbb2",
