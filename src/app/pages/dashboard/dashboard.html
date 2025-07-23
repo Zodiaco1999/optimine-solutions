@@ -2,7 +2,7 @@
   <div class="card">
     <h3 class="title">Sensor Superior</h3>
     <ngx-gauge
-      [size]="400"
+      [size]="size"
       [value]="temp1"
       [min]="-40"
       [max]="80"
@@ -13,14 +13,14 @@
       [cap]="'round'"
       [animate]="true"
       [duration]="800"
-      [thresholds]="thresholds"
+      [thresholds]="thresholds1"
     ></ngx-gauge>
   </div>
 
   <div class="card">
     <h3 class="title">Sensor Inferior</h3>
     <ngx-gauge
-      [size]="400"
+      [size]="size"
       [value]="temp2"
       [min]="-40"
       [max]="80"
@@ -31,7 +31,7 @@
       [cap]="'round'"
       [animate]="true"
       [duration]="800"
-      [thresholds]="thresholds"
+      [thresholds]="thresholds2"
     ></ngx-gauge>
   </div>
 </div>

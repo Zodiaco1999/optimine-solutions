@@ -27,6 +27,7 @@
     &.active {
       transform: translateX(0);
     }
+    height: 100%;
   }
 
   .bx-log-in {
@@ -112,3 +113,55 @@
   background-color: #e6f4ea;  /* verde claro al pasar el mouse */
   border-radius: 6px;
 }
+
+.show-mobile .side-menu {
+  background: #fff;
+  box-shadow: 0 0 16px #0001;
+}
+
+/* Elimina decoración de los li */
+.show-mobile .side-menu ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.show-mobile .side-menu ul li {
+  border: none;
+  background: none;
+  text-decoration: none;
+  color: #67b672;
+  padding: 10px 16px;
+  margin: 4px 0;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+/* Hover */
+.show-mobile .side-menu ul li:hover {
+  background-color: #e6f4ea;
+  border-radius: 6px;
+}
+
+/* Si hay decoraciones heredadas, fuerza a none */
+.show-mobile .side-menu ul li,
+.show-mobile .side-menu ul li a {
+  text-decoration: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: none !important;
+}
+
+.show-mobile .side-menu .close-btn {
+  position: absolute;
+  top: 18px;
+  right: 28px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #67b672;
+  cursor: pointer;
+  z-index: 2;
+}
+

@@ -11,11 +11,11 @@
         </a>
     </div>
     <div class="side-menu" [class.active]="activeMenu">
-        <button (click)="toggleMenu()">Close</button>
+        <button class="close-btn" (click)="toggleMenu()">&#10005;</button>
         <ul>
-            <li routerLink="chat">Chat</li>
-            <li routerLink="dashboard">Dashboard</li>
-            <li routerLink="download">Descargar</li>
+            <li routerLink="chat" (click)="toggleMenu()">Chat</li>
+            <li routerLink="dashboard" (click)="toggleMenu()">Dashboard</li>
+            <li routerLink="download" (click)="toggleMenu()">Descargar</li>
         </ul>
     </div>
 </div>

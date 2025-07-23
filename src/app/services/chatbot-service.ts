@@ -7,7 +7,7 @@ import { PredictResponse } from '../models/predict-response';
   providedIn: 'root'
 })
 export class ChatbotService {
-  private apiUrl = 'http://127.0.0.1:3000';
+  private apiUrl = 'http://127.0.0.1:8000';
 
   constructor(private http: HttpClient) { }
 
@@ -19,7 +19,7 @@ export class ChatbotService {
   }
 
   testConnection() {
-    return this.http.get('http://127.0.0.1:3000/');
+    return this.http.get(this.apiUrl);
   }
 
   sendMessage(message: string) {
