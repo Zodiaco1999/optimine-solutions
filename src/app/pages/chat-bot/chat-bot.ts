@@ -3,10 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ChatbotService } from '../../services/chatbot-service';
 import { Message } from '../../models/message';
+import { MarkdownModule } from 'ngx-markdown';
+
 
 @Component({
   selector: 'app-chat-bot',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MarkdownModule
+],
   templateUrl: './chat-bot.html',
   styleUrl: './chat-bot.css'
 })
@@ -26,36 +29,46 @@ export class ChatBot {
     private chatbotService: ChatbotService
   ) {}
 
-onSubmit() {
-  const text = this.inputText.value?.trim();
-  if (text) {
-    this.pushMessage(text, true, this.previewImageUrl);
+  onSubmit() {
+    const text = this.inputText.value?.trim();
+    this.resetChat();
+    if (text && this.currentImage) {
+      this.pushMessage(text, true, this.previewImageUrl);
 
-    this.chatbotService.predictImage(this.currentImage as File).subscribe({
-      next: (response) => {
-        if (response.is_success) {
-          const replacement = response.replacement!;
-          this.pushMessage(
-            `Repuesto encontrado: ${replacement.name}`,
-            false,
-            undefined,
-            [{ part_number: replacement.part_number, name: replacement.name, quantity: replacement.quantity }]
-          );
+      this.chatbotService.predictImage(this.currentImage as File).subscribe({
+        next: (response) => {
+          if (response.is_success) {
+            const replacement = response.replacement!;
+            this.pushMessage(
+              `Repuesto encontrado: ${replacement.name}`,
+              false,
+              undefined,
+              [{ part_number: replacement.part_number, name: replacement.name, quantity: replacement.quantity }]
+            );
+          }
+          else {
+            this.pushMessage('No se encontró un repuesto adecuado.');
+            console.log('nivel de confianza desconocido:', response.confidence_score);
+          }
+          this.resetImage();
+        },
+        error: (error) => {
+          console.error('Error al enviar la imagen:', error);
+          this.pushMessage('Error al procesar la imagen.');
+           this.resetImage();
         }
-        else {
-          this.pushMessage('No se encontró un repuesto adecuado.');
-          console.log('nivel de confianza desconocido:', response.confidence_score);
+      });
+    } else if (text) {
+      this.pushMessage(text, true);
+      this.chatbotService.sendMessage(text).subscribe({
+        next: (response) => this.pushMessage(response.response, false),
+        error: (error) => {
+          console.error('Error al enviar el mensaje:', error);
+          this.pushMessage('Error al enviar el mensaje.');
         }
-        this.resetChat();
-      },
-      error: (error) => {
-        console.error('Error al enviar la imagen:', error);
-        this.pushMessage('Error al procesar la imagen.');
-        this.resetChat();
-      }
-    });
+      });
+    }
   }
-}
 
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -130,9 +143,15 @@ onSubmit() {
 
   resetChat() {
     this.inputText.setValue('');
-    this.previewImageUrl = undefined;
     this.previewAudioUrl = null;
-    this.currentImage = null;
+    this.cdr.detectChanges();
   }
+
+  resetImage() {
+    this.previewImageUrl = undefined;
+    this.currentImage = null;
+    this.cdr.detectChanges();
+  }
+
 
 }

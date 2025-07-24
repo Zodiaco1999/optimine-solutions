@@ -7,7 +7,7 @@
             <img [src]="item.imageUrl" alt="Imagen del mensaje" width="300px" class="message-image" />
           }
           @if (item.text) {
-            {{ item.text }}
+            <markdown [data]="item.text"></markdown>
           }
           @if (item.tableData) {
             <table class="replacement-table">
@@ -47,13 +47,9 @@
       <button type="button" (click)="closePreview(previewAudioUrl)" class="remove-preview">✕</button>
     </div>
     }
-    <input type="text" [formControl]="inputText" placeholder="Enter your text here" class="input-field" (keydown.enter)="onSubmit()" />
+    <input type="text" [formControl]="inputText" placeholder="Ingresa tu pregunta" class="input-field" (keydown.enter)="onSubmit()" />
     <input type="file" accept="image/*" (change)="onImageSelected($event)" style="display:none" #fileInput>
     <i class="bx bx-photo-album" data-tooltip="Adjuntar imagen" (click)="fileInput.click()"></i>
-    <i class="bx bx-{{isRecording ? 'stop-circle' : 'microphone'}}"
-       [attr.data-tooltip]="isRecording ? 'Detener grabación' : 'Grabar voz'"
-       [class.recording]="isRecording"
-       (click)="toggleRecording()"></i>
     <i class="bx bx-right-arrow-alt" data-tooltip="Enviar mensaje" (click)="onSubmit()"></i>
   </div>
 </div>

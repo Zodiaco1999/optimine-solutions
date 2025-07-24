@@ -1,34 +1,30 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PredictResponse } from '../models/predict-response';
+import { ModelResponse } from '../models/model-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatbotService {
-  private apiUrl = 'http://127.0.0.1:8000';
+  private API_URL = 'http://127.0.0.1:8000';
 
   constructor(private http: HttpClient) { }
+
+  testConnection() {
+    return this.http.get(this.API_URL);
+  }
 
   predictImage(file: File): Observable<PredictResponse> {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post<PredictResponse>(`${this.apiUrl}/predict`, formData);
+    return this.http.post<PredictResponse>(`${this.API_URL}/predict`, formData);
   }
 
-  testConnection() {
-    return this.http.get(this.apiUrl);
-  }
-
-  sendMessage(message: string) {
-    //return this.http.post<string>(this.apiUrl, { message });
-
-    return new Observable<string>(observer => {
-      console.log("Mock API call with message:", message);
-      observer.next(" This is a mock response for the message: " + message);
-      observer.complete();
-    });
+  sendMessage(question: string) {
+    const params = new HttpParams().set('text', question);
+    return this.http.get<ModelResponse>(`${this.API_URL}/ask`, { params });
   }
 }
