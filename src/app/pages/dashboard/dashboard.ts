@@ -10,8 +10,8 @@ import { DHTData } from '../../models/dht';
   styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnInit {
-  temp1: number = 0;
-  temp2: number = 0;
+  temp1: number = 25;
+  temp2: number = 42;
   size: number = 400;
 
   thresholds1 = {

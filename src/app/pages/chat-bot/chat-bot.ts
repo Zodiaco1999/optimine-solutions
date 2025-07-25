@@ -20,9 +20,11 @@ export class ChatBot {
   previewImageUrl?: string = undefined;
   previewAudioUrl: string | null = null;
   isRecording = false;
+  isloading = false;
 
   private mediaRecorder: MediaRecorder | null = null;
   private audioChunks: Blob[] = [];
+
 
   constructor(
     @Inject(ChangeDetectorRef) private cdr: ChangeDetectorRef,
@@ -30,6 +32,7 @@ export class ChatBot {
   ) {}
 
   onSubmit() {
+    this.isloading = true;
     const text = this.inputText.value?.trim();
     this.resetChat();
     if (text && this.currentImage) {
@@ -50,21 +53,28 @@ export class ChatBot {
             this.pushMessage('No se encontró un repuesto adecuado.');
             console.log('nivel de confianza desconocido:', response.confidence_score);
           }
-          this.resetImage();
         },
         error: (error) => {
           console.error('Error al enviar la imagen:', error);
           this.pushMessage('Error al procesar la imagen.');
-           this.resetImage();
+        },
+        complete: () => {
+          this.resetImage();
+          this.isloading = false;
         }
       });
     } else if (text) {
       this.pushMessage(text, true);
       this.chatbotService.sendMessage(text).subscribe({
-        next: (response) => this.pushMessage(response.response, false),
+        next: (response) => {
+          this.pushMessage(response.response, false)
+        },
         error: (error) => {
           console.error('Error al enviar el mensaje:', error);
           this.pushMessage('Error al enviar el mensaje.');
+        },
+        complete: () => {
+          this.isloading = false;
         }
       });
     }
